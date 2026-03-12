@@ -1,0 +1,39 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Dependency directories
+node_modules/
+vendor/
+rag_env/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Cache
+.cache/
+*.cache
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+
+# Mac
+.DS_Store
