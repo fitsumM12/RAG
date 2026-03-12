@@ -18,7 +18,19 @@ vendor/
 rag_env/
 venv/
 .env
+# Python virtual environments
+rag_env/
+venv/
+.env
 
+# Python cache
+__pycache__/
+*.pyc
+
+# Large model files
+*.pt
+*.pth
+*.h5
 # Python cache
 __pycache__/
 *.pyc
