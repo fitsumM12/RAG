@@ -4,13 +4,12 @@ import ChatInput from "../components/ChatInput.jsx";
 import { askQuestion, askQuestionStream } from "../services/api.js";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      content: "Upload documents and ask anything about them. I will cite the most relevant chunks.",
-      sources: []
-    }
-  ]);
+  const defaultMessage = {
+    role: "assistant",
+    content: "Upload documents and ask anything about them. I will cite the most relevant chunks.",
+    sources: []
+  };
+  const [messages, setMessages] = useState([defaultMessage]);
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState(
     () => window.localStorage.getItem("ragConversationId") || null
@@ -18,10 +17,29 @@ export default function ChatPage() {
   const [streaming, setStreaming] = useState(true);
 
   useEffect(() => {
+    const key = conversationId ? `ragMessages:${conversationId}` : "ragMessages:default";
+    const cached = window.localStorage.getItem(key);
+    if (cached) {
+      try {
+        setMessages(JSON.parse(cached));
+      } catch {
+        setMessages([defaultMessage]);
+      }
+    } else {
+      setMessages([defaultMessage]);
+    }
+  }, [conversationId]);
+
+  useEffect(() => {
     if (conversationId) {
       window.localStorage.setItem("ragConversationId", conversationId);
     }
   }, [conversationId]);
+
+  useEffect(() => {
+    const key = conversationId ? `ragMessages:${conversationId}` : "ragMessages:default";
+    window.localStorage.setItem(key, JSON.stringify(messages));
+  }, [messages, conversationId]);
 
   const handleSend = async (question) => {
     setLoading(true);
@@ -93,6 +111,9 @@ export default function ChatPage() {
   };
 
   const handleReset = () => {
+    if (conversationId) {
+      window.localStorage.removeItem(`ragMessages:${conversationId}`);
+    }
     setConversationId(null);
     window.localStorage.removeItem("ragConversationId");
     setMessages([
@@ -108,21 +129,21 @@ export default function ChatPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="font-display text-2xl text-ink">Chat Interface</h2>
-          <p className="text-sm text-ink/70">
+          <h2 className="font-display text-2xl text-black">Chat Interface</h2>
+          <p className="text-sm text-black/70">
             Responses are grounded in your uploaded content and include citations.
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setStreaming((prev) => !prev)}
-            className="rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold text-ink"
+            className="rounded-full border border-secondary/60 bg-secondary/30 px-4 py-2 text-xs font-semibold text-black"
           >
             {streaming ? "Streaming: On" : "Streaming: Off"}
           </button>
           <button
             onClick={handleReset}
-            className="rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white"
+            className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
           >
             New Session
           </button>

@@ -18,10 +18,6 @@ vendor/
 rag_env/
 venv/
 .env
-# Python virtual environments
-rag_env/
-venv/
-.env
 
 # Python cache
 __pycache__/
@@ -31,9 +27,6 @@ __pycache__/
 *.pt
 *.pth
 *.h5
-# Python cache
-__pycache__/
-*.pyc
 
 # Build outputs
 dist/
@@ -50,9 +43,16 @@ out/
 *.swp
 *.swo
 
-# Python
-__pycache__/
-*.pyc
+# Documents and media files
+media/
+documents/
+*.pdf
+*.doc
+*.docx
+*.txt
+*.md
+*.rtf
+*.odt
 
 # Mac
 .DS_Store

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import ChatSession, ChatMessage
-from .serializers import AskSerializer
+from .serializers import AskSerializer, SeedConversationSerializer
 from rag.rag_service import build_prompt, format_sources, retrieve_context
 from rag.llm import generate_answer, stream_answer
 
@@ -52,7 +52,6 @@ class AskView(APIView):
 
         session = _get_session(conversation_id)
         memory = _get_memory(session)
-
         results = retrieve_context(question, top_k)
         context = _build_context(results)
         prompt = build_prompt(question, context, memory)
@@ -60,7 +59,9 @@ class AskView(APIView):
         sources = format_sources(results, question)
 
         ChatMessage.objects.create(session=session, role="user", content=question)
-        ChatMessage.objects.create(session=session, role="assistant", content=answer, sources=sources)
+        ChatMessage.objects.create(
+            session=session, role="assistant", content=answer, sources=sources
+        )
 
         return Response(
             {
@@ -96,7 +97,9 @@ class AskStreamView(APIView):
                 yield f"data: {json.dumps({'token': token})}\n\n"
             final_answer = "".join(collected)
             ChatMessage.objects.create(session=session, role="user", content=question)
-            ChatMessage.objects.create(session=session, role="assistant", content=final_answer, sources=sources)
+            ChatMessage.objects.create(
+                session=session, role="assistant", content=final_answer, sources=sources
+            )
             payload = {
                 "done": True,
                 "answer": final_answer,
@@ -105,6 +108,52 @@ class AskStreamView(APIView):
             }
             yield f"data: {json.dumps(payload)}\n\n"
 
-        response = StreamingHttpResponse(event_stream(), content_type="text/event-stream")
+        response = StreamingHttpResponse(
+            event_stream(), content_type="text/event-stream"
+        )
         response["Cache-Control"] = "no-cache"
         return response
+
+
+class SeedConversationView(APIView):
+    def post(self, request):
+        serializer = SeedConversationSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        conversation_id = serializer.validated_data.get("conversation_id")
+        title = serializer.validated_data.get("title", "")
+        messages = serializer.validated_data["messages"]
+
+        if conversation_id:
+            try:
+                session = ChatSession.objects.get(id=conversation_id)
+            except ChatSession.DoesNotExist:
+                return Response(
+                    {"error": "conversation_id not found"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        else:
+            session = ChatSession.objects.create(title=title)
+
+        if title:
+            session.title = title
+            session.save(update_fields=["title"])
+
+        created = 0
+        for msg in messages:
+            ChatMessage.objects.create(
+                session=session,
+                role=msg["role"],
+                content=msg["content"],
+                sources=msg.get("sources", []),
+            )
+            created += 1
+
+        return Response(
+            {
+                "conversation_id": session.id,
+                "created": created,
+            },
+            status=status.HTTP_201_CREATED,
+        )

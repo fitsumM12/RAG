@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
 import { getDocuments, uploadDocument } from "../services/api.js";
 
 export default function UploadPage() {
@@ -35,9 +36,9 @@ export default function UploadPage() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr,1.2fr]">
-      <section className="rounded-3xl bg-white/70 p-6 shadow-inner">
-        <h2 className="font-display text-2xl text-ink">Upload Documents</h2>
-        <p className="mt-2 text-sm text-ink/70">
+      <section className="rounded-3xl bg-secondary/20 p-6 shadow-inner border border-secondary/40">
+        <h2 className="font-display text-2xl text-black">Upload Documents</h2>
+        <p className="mt-2 text-sm text-black/70">
           Supported formats: PDF, TXT, DOCX. Files are chunked and embedded automatically.
         </p>
         <form onSubmit={handleUpload} className="mt-6 space-y-4">
@@ -45,30 +46,35 @@ export default function UploadPage() {
             type="file"
             accept=".pdf,.txt,.docx"
             onChange={(event) => setSelectedFile(event.target.files[0])}
-            className="w-full rounded-xl border border-white/70 bg-white/80 px-4 py-3 text-sm"
+            className="w-full rounded-xl border border-secondary/60 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-clay px-4 py-3 text-sm font-semibold text-white shadow hover:bg-clay/90 disabled:opacity-60"
+            className="w-full rounded-xl bg-red px-4 py-3 text-sm font-semibold text-white shadow hover:bg-red/90 disabled:opacity-60"
           >
-            {loading ? "Processing..." : "Upload"}
+            <span className="inline-flex items-center justify-center gap-2">
+              {loading && (
+                <Icon icon="svg-spinners:3-dots-scale" className="text-white text-lg" />
+              )}
+              {loading ? "Processing..." : "Upload"}
+            </span>
           </button>
         </form>
-        {status && <p className="mt-4 text-sm text-ink/70">{status}</p>}
+        {status && <p className="mt-4 text-sm text-black/70">{status}</p>}
       </section>
 
-      <section className="rounded-3xl bg-white/70 p-6 shadow-inner">
-        <h2 className="font-display text-2xl text-ink">Uploaded Files</h2>
+      <section className="rounded-3xl bg-secondary/20 p-6 shadow-inner border border-secondary/40">
+        <h2 className="font-display text-2xl text-black">Uploaded Files</h2>
         <div className="mt-6 space-y-4">
           {documents.length === 0 && (
-            <p className="text-sm text-ink/60">No documents uploaded yet.</p>
+            <p className="text-sm text-black/60">No documents uploaded yet.</p>
           )}
           {documents.map((doc) => (
-            <div key={doc.id} className="rounded-2xl border border-white/70 bg-white/80 px-4 py-4">
-              <p className="font-semibold text-ink">{doc.name}</p>
-              <p className="text-xs text-ink/60">{doc.file_type.toUpperCase()}</p>
-              <p className="text-xs text-ink/50 mt-1">
+            <div key={doc.id} className="rounded-2xl border border-secondary/50 bg-white px-4 py-4">
+              <p className="font-semibold text-black">{doc.name}</p>
+              <p className="text-xs text-black/60">{doc.file_type.toUpperCase()}</p>
+              <p className="text-xs text-black/50 mt-1">
                 Uploaded {new Date(doc.created_at).toLocaleString()}
               </p>
             </div>

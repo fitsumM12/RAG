@@ -9,7 +9,7 @@
 
 body {
   font-family: "IBM Plex Sans", ui-sans-serif, system-ui;
-  background: radial-gradient(circle at top left, #fff7ed 0%, #f5f2ed 55%, #efe9df 100%);
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -29,7 +29,7 @@ body {
 }
 
 .marked strong {
-  color: #9a3412;
+  color: #b91c1c;
   font-weight: 600;
 }
 
@@ -41,4 +41,16 @@ body {
 
 .floaty {
   animation: floaty 6s ease-in-out infinite;
+}
+
+.bg-glow-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(138, 115, 69, 0.08), transparent 40%),
+    linear-gradient(60deg, rgba(220, 189, 127, 0.08), transparent 35%),
+    linear-gradient(200deg, rgba(185, 28, 28, 0.06), transparent 45%);
+  mix-blend-mode: normal;
+  opacity: 0.35;
+  z-index: -9;
 }

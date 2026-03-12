@@ -9,12 +9,11 @@ export default {
         body: ["IBM Plex Sans", "ui-sans-serif", "system-ui"]
       },
       colors: {
-        ink: "#0f172a",
-        mist: "#f8fafc",
-        sand: "#f5f2ed",
-        moss: "#0f766e",
-        clay: "#9a3412",
-        gold: "#f59e0b"
+        ink: "#0b0b0b",
+        primary: "#8a7345",
+        secondary: "#DCBD7F",
+        red: "#b91c1c",
+        mist: "#f8fafc"
       }
     }
   },
