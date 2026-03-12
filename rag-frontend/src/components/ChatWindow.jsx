@@ -9,7 +9,7 @@ export default function ChatWindow({ messages, loading }) {
   }, [messages, loading]);
 
   return (
-    <div className="chat-scrollbar h-[60vh] overflow-y-auto rounded-3xl bg-white/50 p-6 shadow-inner">
+    <div className="chat-scrollbar h-[40vh] overflow-y-auto rounded-3xl bg-white/50 p-6 shadow-inner">
       <div className="space-y-6">
         {messages.map((msg, index) => (
           <ChatMessage key={index} role={msg.role} content={msg.content} sources={msg.sources} />

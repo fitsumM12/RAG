@@ -7,6 +7,11 @@ class DocumentUploadSerializer(serializers.ModelSerializer):
         model = Document
         fields = ["id", "name", "file", "file_type", "metadata", "created_at"]
         read_only_fields = ["id", "created_at"]
+        extra_kwargs = {
+            "name": {"required": False, "allow_blank": True},
+            "file_type": {"required": False, "allow_blank": True},
+            "metadata": {"required": False},
+        }
 
     def validate_file(self, value):
         name = value.name.lower()

@@ -99,8 +99,8 @@ REST_FRAMEWORK = {
 
 # RAG settings
 RAG_VECTOR_DB = os.getenv("RAG_VECTOR_DB", "chroma")
-CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", str(BASE_DIR / "vector_store"))
-FAISS_INDEX_DIR = os.getenv("FAISS_INDEX_DIR", str(BASE_DIR / "vector_store_faiss"))
+CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR") or str(BASE_DIR / "vector_store")
+FAISS_INDEX_DIR = os.getenv("FAISS_INDEX_DIR") or str(BASE_DIR / "vector_store_faiss")
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

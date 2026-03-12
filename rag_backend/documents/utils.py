@@ -1,13 +1,11 @@
 import uuid
 from typing import List
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document as LCDocument
 from .models import Document
-from rag.vector_store import add_documents
 
 
 def _load_documents(file_path: str, file_type: str) -> List[LCDocument]:
+    from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
     if file_type == "pdf":
         loader = PyPDFLoader(file_path)
     elif file_type == "txt":
@@ -18,6 +16,8 @@ def _load_documents(file_path: str, file_type: str) -> List[LCDocument]:
 
 
 def process_document(doc: Document) -> int:
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    from rag.vector_store import add_documents
     file_type = doc.file_type
     raw_docs = _load_documents(doc.file.path, file_type)
 
