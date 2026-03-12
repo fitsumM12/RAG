@@ -10,11 +10,11 @@ logs/
 .env
 .env.local
 .env.*
-
+rag_env
 # Dependency directories
 node_modules/
 vendor/
-rag_env/
+
 
 # Build outputs
 dist/
