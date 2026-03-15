@@ -126,7 +126,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6 min-h-[65vh]">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="font-display text-2xl text-black">Chat Interface</h2>
@@ -149,8 +149,12 @@ export default function ChatPage() {
           </button>
         </div>
       </div>
-      <ChatWindow messages={messages} loading={loading} />
-      <ChatInput onSend={handleSend} disabled={loading} />
+      <div className="flex-1 min-h-0">
+        <ChatWindow messages={messages} loading={loading} />
+      </div>
+      <div className="sticky bottom-0 bg-white/80 backdrop-blur-sm rounded-3xl p-3 border border-secondary/40">
+        <ChatInput onSend={handleSend} disabled={loading} />
+      </div>
     </div>
   );
 }

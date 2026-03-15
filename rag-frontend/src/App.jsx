@@ -14,8 +14,8 @@ export default function App() {
     <BrowserRouter>
       <BackgroundFX />
       <div className="bg-glow-overlay" />
-      <div className="min-h-screen px-6 py-10">
-        <div className="app-shell max-w-6xl mx-auto rounded-[32px] p-8">
+      <div className="min-h-screen px-6 py-8">
+        <div className="app-shell max-w-7xl mx-auto rounded-[32px] p-10 min-h-[85vh]">
           <header className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-4">
@@ -23,9 +23,9 @@ export default function App() {
                 <p className="text-sm uppercase tracking-[0.4em] text-primary/80">RAG Studio</p>
               </div>
               <h1 className="font-display text-3xl md:text-4xl text-black">
-                Fitsum EAII
+                Fitsum.AI
               </h1>
-              <p className="mt-2 text-black/70 max-w-xl">
+              <p className="mt-2 text-black/70 w-full">
                 Upload documents, run semantic search, and chat with your private knowledge base.
               </p>
             </div>

@@ -6,7 +6,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Space Grotesk", "ui-sans-serif", "system-ui"],
-        body: ["IBM Plex Sans", "ui-sans-serif", "system-ui"]
+        body: ["IBM Plex Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"]
       },
       colors: {
         ink: "#0b0b0b",

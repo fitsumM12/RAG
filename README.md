@@ -4,6 +4,8 @@ Production-ready Retrieval Augmented Generation stack with Django + React (Vite)
 
 ## Project Structure
 
+![RAG Application Overview](rag_sample.jpeg)
+
 Backend:
 - rag_backend/
   - manage.py
